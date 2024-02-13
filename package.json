@@ -1,0 +1,30 @@
+{
+  "name": "@piarre/ts-freebox",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./out/index.js",
+  "types": "./out/index.d.ts",
+  "type": "commonjs",
+  "scripts": {
+    "dev": "clear && rm -rf out/ && tsup --watch",
+    "build": "rm -rf out/ && tsup",
+    "clear": "rm -rf out/",
+    "start": "tsc && node .",
+    "start:clean": "rm -rf out && tsc && node ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.11.17",
+    "ts-node": "^10.9.2",
+    "tsup": "^8.0.2",
+    "typescript": "^5.3.3",
+    "vitest": "^1.2.2"
+  },
+  "dependencies": {
+    "@types/crypto-js": "^4.2.2",
+    "crypto-js": "^4.2.0",
+    "tslog": "^4.9.2"
+  }
+}
