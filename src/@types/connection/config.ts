@@ -26,10 +26,28 @@ interface ConnectionConfig {
   sip_alg: keyof typeof SipAlg;
 }
 
+interface IPv6ConnectionConfiguration {
+  /** is IPv6 enabled */
+  ipv6_enabled: boolean;
+  /** is IPv6 firewall enabled */
+  ipv6_firewall: boolean;
+  /** Freebox IPv6 link local address */
+  ipv6ll: string;
+  /** list of IPv6 delegations */
+  delegations: Delegation[];
+}
+
+interface Delegation {
+  /** IPv6 prefix */
+  prefix: string;
+  /** the next hop for the prefix */
+  next_hop: string;
+}
+
 enum SipAlg {
   disabled = "Fully disable SIP ALG",
   direct_media = "Enable SIP ALG, RTP only allowed between SIP UA",
   any_media = "Enable SIP ALG, RTP allowed between any host (dangerous for untrusted hosts)",
 }
 
-export { ConnectionConfig };
+export { ConnectionConfig, IPv6ConnectionConfiguration };
