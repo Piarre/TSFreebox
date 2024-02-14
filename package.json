@@ -17,6 +17,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^20.11.17",
+    "dotenv": "^16.4.4",
     "ts-node": "^10.9.2",
     "tsup": "^8.0.2",
     "typescript": "^5.3.3",
@@ -25,6 +26,7 @@
   "dependencies": {
     "@types/crypto-js": "^4.2.2",
     "crypto-js": "^4.2.0",
+    "log4js": "^6.9.1",
     "tslog": "^4.9.2"
   }
 }

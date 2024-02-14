@@ -1,7 +1,6 @@
 import { ConnectionConfig, ConnectionStatus, IPv6ConnectionConfiguration } from "../@types/connection";
-import { Response } from "../@types/response";
-import get, { put } from "../utils/fetch";
-import Submodule from "./base";
+import { get, put } from "../utils/fetch";
+import Submodule from "./submodule";
 import { Freebox } from "./freebox";
 
 class Connection extends Submodule {
@@ -30,12 +29,12 @@ class Connection extends Submodule {
   /**
    * Update the Connection configuration
    * @link https://mafreebox.freebox.fr/doc/index.html?v=b828168f17942dd3e241fff4f01ccdd14bcc89aa#update-the-connection-configuration
-   * @param config The new configuration
+   * @param body The new configuration
    * @returns {Promise<Response<ConnectionConfig>>}
    */
-  async updateConfig(config: Partial<ConnectionConfig>): Promise<Response<ConnectionConfig>> {
-    return await put<ConnectionConfig>(`${this.baseUrl}/connection/config/`, this.token, {
-      body: config,
+  async updateConfig(body: Partial<ConnectionConfig>): Promise<Response<ConnectionConfig>> {
+    return await get<ConnectionConfig>(`${this.baseUrl}/connection/config/`, this.token, {
+      body,
     });
   }
 
@@ -51,12 +50,12 @@ class Connection extends Submodule {
   /**
    * Update the IPv6 Connection configuration
    * @link https://mafreebox.freebox.fr/doc/index.html?v=b828168f17942dd3e241fff4f01ccdd14bcc89aa#update-the-ipv6-connection-configuration
-   * @param config The new configuration
+   * @param body The new configuration
    * @returns {Promise<Response<IPv6ConnectionConfiguration>>}
    */
-  async updateIPv6Config(config: Partial<IPv6ConnectionConfiguration>): Promise<Response<IPv6ConnectionConfiguration>> {
+  async updateIPv6Config(body: Partial<IPv6ConnectionConfiguration>): Promise<Response<IPv6ConnectionConfiguration>> {
     return await put<IPv6ConnectionConfiguration>(`${this.baseUrl}/connection/ipv6/config/`, this.token, {
-      body: config,
+      body,
     });
   }
 }

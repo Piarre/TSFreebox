@@ -89,30 +89,6 @@ interface Hostname {
   source: string;
 }
 
-interface Layer3Connectivity {
-  /** Layer 3 address */
-  addr: string;
-  /** Layer 3 address type
-   * @see {Layer3AF}
-   */
-  af: keyof typeof Layer3AF;
-  /** is the connection active */
-  active: boolean;
-  /** is the connection reachable */
-  reachable: boolean;
-  /** last activity timestamp */
-  last_activity: number;
-  /** last reachable timestamp */
-  last_time_reachable: number;
-  /** device model if known */
-  model: string;
-}
-
-enum Layer3AF {
-  ipv4 = "IPv4",
-  ipv6 = "IPv6",
-}
-
 interface Networkcontrol {
   /** Id of profile this device is associated with. */
   profile_id: number;

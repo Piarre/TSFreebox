@@ -1,9 +1,8 @@
-import get, { post, put } from "../utils/fetch";
-import Submodule from "./base";
+import Submodule from "./submodule";
 import { Freebox } from "./freebox";
 import { LanHost, LanInterface } from "../@types/lan";
-import { Response, VoidResponse } from "../@types/response";
 import { LanConfig } from "../@types/lan/config";
+import { get, post, put } from "../utils/fetch";
 
 /**
  * Lan browser API allow you to discover hosts on the local network
@@ -15,7 +14,7 @@ class LAN extends Submodule {
   constructor(freebox: Freebox) {
     super(freebox);
   }
-
+  
   /**
    * Returns the current LanConfig
    * @link https://mafreebox.freebox.fr/doc/index.html#get-the-current-lan-configuration
@@ -33,7 +32,7 @@ class LAN extends Submodule {
    */
   async updateConfig(config: Partial<LanConfig>): Promise<Response<Partial<LanConfig>>> {
     if (!config || Object.keys(config).length === 0) throw new Error("config is required");
-    return await put<Partial<LanConfig>>(`${this.baseUrl}/lan/config/`, this.token, {
+    return await put<Partial<LanConfig>, Partial<LanConfig>>(`${this.baseUrl}/lan/config/`, this.token, {
       body: config,
     });
   }
@@ -87,7 +86,7 @@ class LAN extends Submodule {
     if (!_interface) throw new Error("interface is required");
     if (!id) throw new Error("id is required");
     if (!data || Object.keys(data).length === 0) throw new Error("data is required");
-    return await put<Partial<LanHost>>(`${this.baseUrl}/lan/browser/${_interface}/${id}/`, this.token, {
+    return await put<Partial<LanHost>, Partial<LanHost>>(`${this.baseUrl}/lan/browser/${_interface}/${id}/`, this.token, {
       body: data,
     });
   }
@@ -103,7 +102,13 @@ class LAN extends Submodule {
   async WOL(_interface: string = "pub", mac: string, password: string = ""): Promise<VoidResponse> {
     if (!_interface) throw new Error("interface is required");
     if (!mac) throw new Error("mac is required");
-    return await post<VoidResponse>(`${this.baseUrl}/lan/wol/${_interface}/`, this.token, {
+    return await post<
+      VoidResponse,
+      {
+        mac: string;
+        password?: string;
+      }
+    >(`${this.baseUrl}/lan/wol/${_interface}/`, this.token, {
       body: {
         mac,
         password,

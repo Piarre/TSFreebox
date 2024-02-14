@@ -1,16 +1,26 @@
-
 {
   "compilerOptions": {
     "module": "CommonJS",
-    "target":"ESNext",
+    "target": "ESNext",
     "declaration": true,
     "allowSyntheticDefaultImports": true,
     "outDir": "./out",
     "skipLibCheck": true,
     "inlineSourceMap": true,
-    "typeRoots": ["./node_modules/@types", "src/types/*.d.ts"],
-
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/@types/*.d.ts"
+    ],
+    "declarationDir": "./@types"
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "tests"]
+  "ts-node": {
+    "esm": true,
+  },
+  "include": [
+    "src/**/*",
+  ],
+  "exclude": [
+    "node_modules",
+    "tests"
+  ]
 }

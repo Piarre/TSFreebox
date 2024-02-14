@@ -1,7 +1,6 @@
-import { Response } from "../@types/response";
 import { AP, config, state } from "../@types/wifi";
-import get from "../utils/fetch";
-import Submodule from "./base";
+import { get } from "../utils/fetch";
+import Submodule from "./submodule";
 import { Freebox } from "./freebox";
 
 class Wifi extends Submodule {
