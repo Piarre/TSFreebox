@@ -10,10 +10,24 @@
     "build": "rm -rf out/ && tsup",
     "clear": "rm -rf out/",
     "start": "tsc && node .",
-    "start:clean": "rm -rf out && tsc && node ."
+    "start:clean": "rm -rf out && tsc && node .",
+    "prepublishOnly": "npm run build",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "Freebox",
+    "Freebox Ultra",
+    "Iliad",
+    "Free",
+    "Ultra",
+    "FreeboxOS",
+    "mafreeboxos",
+    "mafreebox",
+    "free.fr"
+  ],
+  "author": "Piarre",
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^20.11.17",
@@ -21,7 +35,9 @@
     "ts-node": "^10.9.2",
     "tsup": "^8.0.2",
     "typescript": "^5.3.3",
-    "vitest": "^1.2.2"
+    "vitepress": "^1.0.0-rc.42",
+    "vitest": "^1.2.2",
+    "vue": "^3.4.19"
   },
   "dependencies": {
     "@types/crypto-js": "^4.2.2",

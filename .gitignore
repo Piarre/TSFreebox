@@ -91,3 +91,6 @@ out/
 dist/
 
 tests/
+
+docs/.vitepress/dist
+docs/.vitepress/cache

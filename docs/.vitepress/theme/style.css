@@ -1,0 +1,76 @@
+:root {
+  --fbx-hue: 0;
+  --fbx-saturation: 100%;
+  --fbx-lightness: 40%;
+  --fbx-alpha: 14%;
+  --fbx-step: 2%;
+  --vp-c-brand-1: hsl(
+    var(--fbx-hue),
+    var(--fbx-saturation),
+    var(--fbx-lightness)
+  );
+  --vp-c-brand-2: hsl(
+    var(--fbx-hue),
+    var(--fbx-saturation),
+    calc(var(--fbx-lightness) + var(--fbx-step))
+  );
+  --vp-c-brand-3: hsl(
+    var(--fbx-hue),
+    var(--fbx-saturation),
+    calc(var(--fbx-lightness) + 2 * var(--fbx-step))
+  );
+  --vp-c-brand-soft: hsla(
+    var(--fbx-hue),
+    var(--fbx-saturation),
+    var(--fbx-lightness),
+    var(--fbx-alpha)
+  );
+}
+
+.dark {
+  --vp-c-brand-1: hsl(
+    var(--fbx-hue),
+    var(--fbx-saturation),
+    var(--fbx-lightness)
+  );
+  --vp-c-brand-2: hsl(
+    var(--fbx-hue),
+    var(--fbx-saturation),
+    calc(var(--fbx-lightness) - var(--fbx-step))
+  );
+  --vp-c-brand-3: hsl(
+    var(--fbx-hue),
+    var(--fbx-saturation),
+    calc(var(--fbx-lightness) - 2 * var(--fbx-step))
+  );
+  --vp-c-brand-soft: hsla(
+    var(--fbx-hue),
+    var(--fbx-saturation),
+    var(--fbx-lightness),
+    var(--fbx-alpha)
+  );
+}
+
+table td * {
+  display: inline;
+}
+
+table td ul {
+  display: block;
+}
+
+table td ul li {
+  display: list-item;
+}
+
+.nav-bar-title .logo {
+  min-height: 2rem;
+}
+
+.VPHero .action:not(:last-child) a.VPButton.alt {
+  border-color: var(--vp-button-brand-bg) !important;
+
+  .dark & {
+    color: var(--vp-button-brand-text) !important;
+  }
+}
