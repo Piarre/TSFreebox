@@ -5,6 +5,12 @@
   "main": "./out/index.js",
   "types": "./out/index.d.ts",
   "type": "commonjs",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "out"
+  ],
   "scripts": {
     "dev": "clear && rm -rf out/ && tsup --watch",
     "build": "rm -rf out/ && tsup",
