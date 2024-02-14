@@ -16,7 +16,7 @@ class Freebox {
   public connection: Connection;
   public port: Port;
 
-  private logger = log4js.getLogger("Freebox");
+  private readonly logger = log4js.getLogger("Freebox");
   public _configuration?: Configuration = {
     baseUrl: "http://mafreebox.freebox.fr/api/v11",
   };
@@ -25,7 +25,7 @@ class Freebox {
 
   constructor(app: OnLoginApp) {
     this._app = app;
-    this.logger.level = "fatal";
+    this.logger.level = "info";
     if (!this._app.app_id) {
       throw new Error("app_id must be defined in the app object");
     } else if (!this._app.app_name) {
