@@ -1,3 +1,5 @@
+import { Layer3Connectivity } from "..";
+
 /**
  * Lan Host has the following attributes
  */

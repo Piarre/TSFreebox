@@ -1,3 +1,5 @@
+import { Response } from "../@types";
+
 type options<T = object> = Omit<RequestInit, "body" | "method"> & {
   body?: T;
 };

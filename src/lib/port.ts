@@ -2,6 +2,7 @@ import Submodule from "./submodule";
 import { Freebox } from "./freebox";
 import * as IPort from "../@types/port";
 import { _delete, get, post, put } from "../utils/fetch";
+import { Response, VoidResponse } from "../@types";
 
 type TPort = IPort.default;
 

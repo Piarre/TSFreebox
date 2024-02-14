@@ -3,6 +3,7 @@ import { Freebox } from "./freebox";
 import { LanHost, LanInterface } from "../@types/lan";
 import { LanConfig } from "../@types/lan/config";
 import { get, post, put } from "../utils/fetch";
+import { Response, VoidResponse } from "../@types";
 
 /**
  * Lan browser API allow you to discover hosts on the local network
@@ -14,7 +15,7 @@ class LAN extends Submodule {
   constructor(freebox: Freebox) {
     super(freebox);
   }
-  
+
   /**
    * Returns the current LanConfig
    * @link https://mafreebox.freebox.fr/doc/index.html#get-the-current-lan-configuration
@@ -30,7 +31,7 @@ class LAN extends Submodule {
    * @param config The new partial LanConfig
    * @returns {Promise<Response<Partial<LanConfig>>>}
    */
-  async updateConfig(config: Partial<LanConfig>): Promise<Response<Partial<LanConfig>>> {
+  async update(config: Partial<LanConfig>): Promise<Response<Partial<LanConfig>>> {
     if (!config || Object.keys(config).length === 0) throw new Error("config is required");
     return await put<Partial<LanConfig>, Partial<LanConfig>>(`${this.baseUrl}/lan/config/`, this.token, {
       body: config,
@@ -81,14 +82,18 @@ class LAN extends Submodule {
   async updateHost(
     _interface: string = "pub",
     id: string,
-    data: Partial<LanHost>
+    data: Partial<Omit<LanHost, "id">> & Required<Pick<LanHost, "id">>
   ): Promise<Response<Partial<LanHost>>> {
     if (!_interface) throw new Error("interface is required");
     if (!id) throw new Error("id is required");
     if (!data || Object.keys(data).length === 0) throw new Error("data is required");
-    return await put<Partial<LanHost>, Partial<LanHost>>(`${this.baseUrl}/lan/browser/${_interface}/${id}/`, this.token, {
-      body: data,
-    });
+    return await put<Partial<LanHost>, Partial<LanHost>>(
+      `${this.baseUrl}/lan/browser/${_interface}/${id}/`,
+      this.token,
+      {
+        body: data,
+      }
+    );
   }
 
   /**

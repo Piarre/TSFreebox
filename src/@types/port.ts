@@ -1,3 +1,4 @@
+import { IPProto } from ".";
 import { LanHost } from "./lan";
 
 interface Port {

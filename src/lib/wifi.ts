@@ -2,6 +2,7 @@ import { AP, config, state } from "../@types/wifi";
 import { get } from "../utils/fetch";
 import Submodule from "./submodule";
 import { Freebox } from "./freebox";
+import { Response } from "../@types";
 
 class Wifi extends Submodule {
   constructor(freebox: Freebox) {

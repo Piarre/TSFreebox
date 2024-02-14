@@ -2,6 +2,7 @@ import { ConnectionConfig, ConnectionStatus, IPv6ConnectionConfiguration } from 
 import { get, put } from "../utils/fetch";
 import Submodule from "./submodule";
 import { Freebox } from "./freebox";
+import { Response } from "../@types";
 
 class Connection extends Submodule {
   constructor(freebox: Freebox) {
