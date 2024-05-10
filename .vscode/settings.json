@@ -1,3 +1,20 @@
 {
-    "typescript.tsdk": "node_modules\\typescript\\lib"
+    "material-icon-theme.folders.customClones": [
+        {
+            "name": "docs-en",
+            "base": "folder-i18n",
+            "color": "red-500",
+            "folderNames": [
+                "en"
+            ]
+        },
+        {
+            "name": "docs-fr",
+            "base": "folder-i18n",
+            "color": "blue-400",
+            "folderNames": [
+                "fr"
+            ]
+        }
+    ],
 }

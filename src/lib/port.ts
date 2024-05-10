@@ -1,7 +1,7 @@
 import Submodule from "./submodule";
 import { Freebox } from "./freebox";
 import * as IPort from "../@types/port";
-import { _delete, get, post, put } from "../utils/fetch";
+import request from "../utils/fetch";
 import { Response, VoidResponse } from "../@types";
 
 type TPort = IPort.default;
@@ -18,7 +18,7 @@ class PortForwarding extends Submodule {
    * @returns {Promise<Response<T>>}
    */
   async status<T = TPort[]>(id?: number): Promise<Response<T>> {
-    return await get<T>(id == undefined ? `${this.baseUrl}/fw/redir/` : `${this.baseUrl}/fw/redir/${id}`, this.token);
+    return await request<T>(id == undefined ? `${this.baseUrl}/fw/redir/` : `${this.baseUrl}/fw/redir/${id}`, this.token);
   }
 
   /**
@@ -29,9 +29,9 @@ class PortForwarding extends Submodule {
    * @returns {Promise<Response<T>>}
    */
   async update(id: number, data: Partial<TPort>): Promise<Response<TPort>> {
-    return await put<TPort, typeof data>(`${this.baseUrl}/fw/redir/${id}`, this.token, {
+    return await request<TPort, typeof data>(`${this.baseUrl}/fw/redir/${id}`, this.token, {
       body: data,
-    });
+    }, "PUT");
   }
 
   /**
@@ -41,9 +41,9 @@ class PortForwarding extends Submodule {
    * @returns {Promise<Response<T>>}
    */
   async add(data: Required<TPort>): Promise<Response<TPort>> {
-    return await post<TPort, TPort>(`${this.baseUrl}/fw/redir/`, this.token, {
+    return await request<TPort, TPort>(`${this.baseUrl}/fw/redir/`, this.token, {
       body: data,
-    });
+    }, "POST");
   }
 
   /**
@@ -53,7 +53,7 @@ class PortForwarding extends Submodule {
    * @returns {Promise<VoidResponse>}
    */
   async delete(id: number): Promise<VoidResponse> {
-    return await _delete<VoidResponse>(`${this.baseUrl}/fw/redir/${id}`, this.token);
+    return await request<VoidResponse>(`${this.baseUrl}/fw/redir/${id}`, this.token, {}, "DELETE");
   }
 }
 

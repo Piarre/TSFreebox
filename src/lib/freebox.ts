@@ -6,7 +6,7 @@ import log4js from "log4js";
 import { LAN } from "./lan";
 import { Connection } from "./connection";
 import { Port } from "./port";
-import { get, post } from "../utils/fetch";
+import request from "../utils/fetch";
 
 type OnLoginApp = Pick<App, "app_id" | "app_name" | "app_version" | "device_name" | "app_token">;
 
@@ -42,20 +42,25 @@ class Freebox {
       this.logger.info("app_token already defined using it to open a session");
       this._app.app_token = this._app.app_token;
     } else {
-      const reqAuthorization = await post<
+      const reqAuthorization = await request<
         {
           app_token: string;
           track_id: string;
         },
         OnLoginApp
-      >(`${this._configuration?.baseUrl}/login/authorize/`, null, {
-        body: {
-          app_id: this._app.app_id,
-          app_name: this._app.app_name,
-          app_version: this._app.app_version,
-          device_name: this._app.device_name,
+      >(
+        `${this._configuration?.baseUrl}/login/authorize/`,
+        null,
+        {
+          body: {
+            app_id: this._app.app_id,
+            app_name: this._app.app_name,
+            app_version: this._app.app_version,
+            device_name: this._app.device_name,
+          },
         },
-      });
+        "POST"
+      );
 
       this._app.app_token = reqAuthorization.result.app_token;
       reqAuthorization.success = false;
@@ -65,7 +70,7 @@ class Freebox {
           `Please accept the authorization request on your Freebox Server with token : ${reqAuthorization.result.app_token}`
         );
 
-        const checkAuthorization = await get<{
+        const checkAuthorization = await request<{
           status: keyof typeof LoginStatus;
           challenge: string;
         }>(`${this._configuration?.baseUrl}/login/authorize/${reqAuthorization.result.track_id}`, null);
@@ -93,23 +98,28 @@ class Freebox {
       }
     }
 
-    const challenge = await get<{
+    const challenge = await request<{
       logged_in: boolean;
       challenge: string;
     }>(`${this._configuration.baseUrl}/login/`, null);
     const password = HmacSHA1(challenge.result.challenge, this._app.app_token).toString();
 
-    const reqSession = await post<{
+    const reqSession = await request<{
       session_token: string;
       challenge: string;
       // TODO: create a type for permissions
       permissions: Record<string, boolean>;
-    }>(`${this._configuration.baseUrl}/login/session/`, null, {
-      body: {
-        app_id: this._app.app_id,
-        password,
+    }>(
+      `${this._configuration.baseUrl}/login/session/`,
+      null,
+      {
+        body: {
+          app_id: this._app.app_id,
+          password,
+        },
       },
-    });
+      "POST"
+    );
 
     this._app.session_token = reqSession.result.session_token;
     this.token = this._app.session_token;

@@ -7,20 +7,12 @@
     "outDir": "./out",
     "skipLibCheck": true,
     "inlineSourceMap": true,
-    "typeRoots": [
-      "./node_modules/@types",
-      "./src/@types/*.d.ts"
-    ],
+    "typeRoots": ["./node_modules/@types", "./src/@types/*.d.ts"],
     "declarationDir": "./@types"
   },
   "ts-node": {
-    "esm": true,
+    "esm": true
   },
-  "include": [
-    "src/**/*",
-  ],
-  "exclude": [
-    "node_modules",
-    "tests"
-  ]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "tests"]
 }

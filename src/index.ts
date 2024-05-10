@@ -1,4 +1,2 @@
-export { fetchFBX } from "./utils/fetch";
-
-export * from "./lib/freebox";
-export * from "./lib/wifi";
+export { request } from "./utils/fetch";
+export { Freebox } from "./lib/freebox";

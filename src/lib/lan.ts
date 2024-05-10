@@ -2,7 +2,7 @@ import Submodule from "./submodule";
 import { Freebox } from "./freebox";
 import { LanHost, LanInterface } from "../@types/lan";
 import { LanConfig } from "../@types/lan/config";
-import { get, post, put } from "../utils/fetch";
+import request from "../utils/fetch";
 import { Response, VoidResponse } from "../@types";
 
 /**
@@ -22,7 +22,7 @@ class LAN extends Submodule {
    * @returns {Promise<Response<LanConfig>>}
    */
   async config(): Promise<Response<LanConfig>> {
-    return await get<LanConfig>(`${this.baseUrl}/lan/config/`, this.token);
+    return await request<LanConfig>(`${this.baseUrl}/lan/config/`, this.token);
   }
 
   /**
@@ -33,9 +33,14 @@ class LAN extends Submodule {
    */
   async update(config: Partial<LanConfig>): Promise<Response<Partial<LanConfig>>> {
     if (!config || Object.keys(config).length === 0) throw new Error("config is required");
-    return await put<Partial<LanConfig>, Partial<LanConfig>>(`${this.baseUrl}/lan/config/`, this.token, {
-      body: config,
-    });
+    return await request<Partial<LanConfig>, Partial<LanConfig>>(
+      `${this.baseUrl}/lan/config/`,
+      this.token,
+      {
+        body: config,
+      },
+      "PUT"
+    );
   }
 
   /**
@@ -44,7 +49,7 @@ class LAN extends Submodule {
    * @returns {Promise<Response<LanInterface[]>>}
    */
   async interfaces(): Promise<Response<LanInterface[]>> {
-    return await get<LanInterface[]>(`${this.baseUrl}/lan/browser/interfaces/`, this.token);
+    return await request<LanInterface[]>(`${this.baseUrl}/lan/browser/interfaces/`, this.token);
   }
 
   /**
@@ -55,7 +60,7 @@ class LAN extends Submodule {
    */
   async hosts(_interface: string = "pub"): Promise<Response<LanHost[]>> {
     if (!_interface) throw new Error("interface is required");
-    return await get<LanHost[]>(`${this.baseUrl}/lan/browser/${_interface}/`, this.token);
+    return await request<LanHost[]>(`${this.baseUrl}/lan/browser/${_interface}/`, this.token);
   }
 
   /**
@@ -68,7 +73,7 @@ class LAN extends Submodule {
   async host(_interface: string = "pub", id: string): Promise<Response<LanHost>> {
     if (!_interface) throw new Error("interface is required");
     if (!id) throw new Error("id is required");
-    return await get<LanHost>(`${this.baseUrl}/lan/browser/${_interface}/${id}/`, this.token);
+    return await request<LanHost>(`${this.baseUrl}/lan/browser/${_interface}/${id}/`, this.token);
   }
 
   /**
@@ -87,12 +92,13 @@ class LAN extends Submodule {
     if (!_interface) throw new Error("interface is required");
     if (!id) throw new Error("id is required");
     if (!data || Object.keys(data).length === 0) throw new Error("data is required");
-    return await put<Partial<LanHost>, Partial<LanHost>>(
+    return await request<Partial<LanHost>, Partial<LanHost>>(
       `${this.baseUrl}/lan/browser/${_interface}/${id}/`,
       this.token,
       {
         body: data,
-      }
+      },
+      "PUT"
     );
   }
 
@@ -107,18 +113,23 @@ class LAN extends Submodule {
   async WOL(_interface: string = "pub", mac: string, password: string = ""): Promise<VoidResponse> {
     if (!_interface) throw new Error("interface is required");
     if (!mac) throw new Error("mac is required");
-    return await post<
+    return await request<
       VoidResponse,
       {
         mac: string;
         password?: string;
       }
-    >(`${this.baseUrl}/lan/wol/${_interface}/`, this.token, {
-      body: {
-        mac,
-        password,
+    >(
+      `${this.baseUrl}/lan/wol/${_interface}/`,
+      this.token,
+      {
+        body: {
+          mac,
+          password,
+        },
       },
-    });
+      "POST"
+    );
   }
 }
 

@@ -4,13 +4,7 @@ type options<T = object> = Omit<RequestInit, "body" | "method"> & {
   body?: T;
 };
 
-const formatUrl = (url: string | URL | Request) => {
-  if (!url.toString().endsWith("/")) {
-    return `${url}/`;
-  } else {
-    return url;
-  }
-};
+const formatUrl = (url: string | URL | Request) => (!url.toString().endsWith("/") ? `${url}/` : url);
 
 const fetchFBX = <T = any, TBody = object>(
   url: string | URL | globalThis.Request,
@@ -27,7 +21,6 @@ const fetchFBX = <T = any, TBody = object>(
       "Content-Type": "application/json",
       "X-Fbx-App-Auth": token || "",
       Host: "mafreebox.freebox.fr",
-      
     },
   })
     .then((res) => res.json() as T)
@@ -38,36 +31,12 @@ const fetchFBX = <T = any, TBody = object>(
     }) as Promise<Response<T>>;
 };
 
-const get = <T = any>(
+const request = <T = any, TBody = object>(
   url: string | URL | globalThis.Request,
   token: string,
-  options?: options
-): Promise<Response<T>> => {
-  return fetchFBX<T>(url, token, "GET", options);
-};
+  options?: options<TBody>,
+  method: "GET" | "POST" | "PUT" | "DELETE" = "GET"
+): Promise<Response<T>> => fetchFBX<T, TBody>(url, token, method, options as TBody);
 
-const post = <T = any, TBody = object>(
-  url: string | URL | globalThis.Request,
-  token: string,
-  options?: options<TBody>
-): Promise<Response<T>> => {
-  return fetchFBX<T, TBody>(url, token, "POST", options as TBody);
-};
-
-const put = <T = any, TBody = object>(
-  url: string | URL | globalThis.Request,
-  token: string,
-  options?: options<TBody>
-): Promise<Response<T>> => {
-  return fetchFBX<T, TBody>(url, token, "PUT", options as TBody);
-};
-
-const _delete = <T = any, TBody = object>(
-  url: string | URL | globalThis.Request,
-  token: string,
-  options?: options<TBody>
-): Promise<Response<T>> => {
-  return fetchFBX<T, TBody>(url, token, "DELETE", options as TBody);
-};
-
-export { get, post, put, _delete, fetchFBX };
+export default request;
+export { fetchFBX, request };

@@ -6,6 +6,18 @@ export default defineConfig({
   description: "A TypeScript library to interact with your freebox.",
   cleanUrls: true,
   lang: "en-US",
+  locales: {
+    root: {
+      label: "English",
+      lang: "en",
+      link: "/en/",
+    },
+    fr: {
+      label: "Français",
+      lang: "fr",
+      link: "/fr/",
+    },
+  },
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [

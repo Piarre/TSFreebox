@@ -1,5 +1,5 @@
 import { ConnectionConfig, ConnectionStatus, IPv6ConnectionConfiguration } from "../@types/connection";
-import { get, put } from "../utils/fetch";
+import request from "../utils/fetch";
 import Submodule from "./submodule";
 import { Freebox } from "./freebox";
 import { Response } from "../@types";
@@ -15,7 +15,7 @@ class Connection extends Submodule {
    * @returns {Promise<Response<ConnectionStatus>>}
    */
   async status(): Promise<Response<ConnectionStatus>> {
-    return await get<ConnectionStatus>(`${this.baseUrl}/connection/`, this.token);
+    return await request<ConnectionStatus>(`${this.baseUrl}/connection/`, this.token);
   }
 
   /**
@@ -24,7 +24,7 @@ class Connection extends Submodule {
    * @returns {Promise<Response<ConnectionConfig>>}
    */
   async config(): Promise<Response<ConnectionConfig>> {
-    return await get<ConnectionConfig>(`${this.baseUrl}/connection/config/`, this.token);
+    return await request<ConnectionConfig>(`${this.baseUrl}/connection/config/`, this.token);
   }
 
   /**
@@ -34,7 +34,7 @@ class Connection extends Submodule {
    * @returns {Promise<Response<ConnectionConfig>>}
    */
   async updateConfig(body: Partial<ConnectionConfig>): Promise<Response<ConnectionConfig>> {
-    return await get<ConnectionConfig>(`${this.baseUrl}/connection/config/`, this.token, {
+    return await request<ConnectionConfig>(`${this.baseUrl}/connection/config/`, this.token, {
       body,
     });
   }
@@ -45,7 +45,7 @@ class Connection extends Submodule {
    * @returns {Promise<Response<IPv6ConnectionConfiguration>>}
    */
   async IPv6config(): Promise<Response<IPv6ConnectionConfiguration>> {
-    return await get<IPv6ConnectionConfiguration>(`${this.baseUrl}/connection/ipv6/config/`, this.token);
+    return await request<IPv6ConnectionConfiguration>(`${this.baseUrl}/connection/ipv6/config/`, this.token);
   }
 
   /**
@@ -55,9 +55,14 @@ class Connection extends Submodule {
    * @returns {Promise<Response<IPv6ConnectionConfiguration>>}
    */
   async updateIPv6Config(body: Partial<IPv6ConnectionConfiguration>): Promise<Response<IPv6ConnectionConfiguration>> {
-    return await put<IPv6ConnectionConfiguration>(`${this.baseUrl}/connection/ipv6/config/`, this.token, {
-      body,
-    });
+    return await request<IPv6ConnectionConfiguration>(
+      `${this.baseUrl}/connection/ipv6/config/`,
+      this.token,
+      {
+        body,
+      },
+      "PUT"
+    );
   }
 }
 
