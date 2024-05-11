@@ -7,17 +7,29 @@ import { LAN } from "./lan";
 import { Connection } from "./connection";
 import { Port } from "./port";
 import request from "../utils/fetch";
+import pino from "pino";
+import { Player } from "./player";
+import pretty from "pino-pretty";
 
-type OnLoginApp = Pick<App, "app_id" | "app_name" | "app_version" | "device_name" | "app_token">;
+type OnLoginApp = Pick<App, "app_id" | "app_name" | "app_version" | "device_name" | "app_token" | "debug">;
 
 class Freebox {
   public wifi: Wifi;
   public LAN: LAN;
   public connection: Connection;
   public port: Port;
+  public player: Player;
 
-  private readonly logger = log4js.getLogger("Freebox");
-  public _configuration?: Configuration = {
+  public request: typeof request;
+
+  private readonly logger = pino(
+    pretty({
+      colorize: true,
+      sync: true,
+    })
+  );
+
+  public readonly _configuration?: Configuration = {
     baseUrl: "http://mafreebox.freebox.fr/api/v11",
   };
   public _app: App;
@@ -25,7 +37,7 @@ class Freebox {
 
   constructor(app: OnLoginApp) {
     this._app = app;
-    this.logger.level = "info";
+    this._app.debug ? (this.logger.level = "debug") : (this.logger.level = "info");
     if (!this._app.app_id) {
       throw new Error("app_id must be defined in the app object");
     } else if (!this._app.app_name) {
@@ -38,6 +50,7 @@ class Freebox {
   }
 
   async login() {
+    this.logger.debug("Starting login process");
     if (this._app.app_token) {
       this.logger.info("app_token already defined using it to open a session");
       this._app.app_token = this._app.app_token;
@@ -66,6 +79,7 @@ class Freebox {
       reqAuthorization.success = false;
 
       while (!reqAuthorization.success) {
+        this.logger.debug("Checking authorization status...");
         this.logger.info(
           `Please accept the authorization request on your Freebox Server with token : ${reqAuthorization.result.app_token}`
         );
@@ -98,12 +112,14 @@ class Freebox {
       }
     }
 
+    this.logger.debug("Requesting a challenge");
     const challenge = await request<{
       logged_in: boolean;
       challenge: string;
     }>(`${this._configuration.baseUrl}/login/`, null);
     const password = HmacSHA1(challenge.result.challenge, this._app.app_token).toString();
 
+    this.logger.debug("Resolving challenge");
     const reqSession = await request<{
       session_token: string;
       challenge: string;
@@ -120,16 +136,31 @@ class Freebox {
       },
       "POST"
     );
-
+    
+    this.logger.debug(
+      `Get sesion token with permssions: ${Object.keys(reqSession.result.permissions)
+        .filter((key) => reqSession.result.permissions[key] === true)
+        .join(", ")}`
+    );
+    this.logger.debug("Session resolved");
     this._app.session_token = reqSession.result.session_token;
     this.token = this._app.session_token;
     this.logger.info("Logged in with sesion_token: ", this._app.session_token);
 
+    this.logger.info(this.token);
     this.wifi = new Wifi(this);
     this.LAN = new LAN(this);
     this.connection = new Connection(this);
     this.port = new Port(this);
+    this.player = new Player(this);
+
+    this.request = request;
   }
+
+  /**
+   * @todo
+   */
+  logout() {}
 }
 
 export { Freebox };

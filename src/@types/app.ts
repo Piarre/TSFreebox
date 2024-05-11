@@ -15,6 +15,8 @@ interface App {
   session_token?: string | null;
 
   permissions?: {} /* TODO */;
+
+  debug?: boolean;
 }
 
 enum LoginStatus {

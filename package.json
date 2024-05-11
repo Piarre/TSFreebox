@@ -1,6 +1,6 @@
 {
   "name": "@piarre/ts-freebox",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "./out/index.js",
   "types": "./out/index.d.ts",
@@ -49,6 +49,8 @@
     "@types/crypto-js": "^4.2.2",
     "crypto-js": "^4.2.0",
     "log4js": "^6.9.1",
+    "pino": "^9.0.0",
+    "pino-pretty": "^11.0.0",
     "tslog": "^4.9.2"
   }
 }
