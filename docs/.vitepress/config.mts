@@ -5,20 +5,12 @@ export default defineConfig({
   title: "TS Freebox",
   description: "A TypeScript library to interact with your freebox.",
   cleanUrls: true,
-  lang: "en-US",
-  locales: {
-    root: {
-      label: "English",
-      lang: "en",
-      link: "/en/",
-    },
-    fr: {
-      label: "Français",
-      lang: "fr",
-      link: "/fr/",
-    },
-  },
+  lang: "fr",
   themeConfig: {
+    footer: {
+      message: "Se projet n'est d'aucune manière affilié à Free SAS.",
+      copyright: "Piarre © BSD-3-Clause"
+    },
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: "Home", link: "/" },
@@ -48,6 +40,10 @@ export default defineConfig({
               {
                 text: "LAN",
                 link: "/modules/LAN",
+              },
+              {
+                text: "Player",
+                link: "/modules/Player",
               },
             ],
           },
