@@ -2,7 +2,6 @@ import { HmacSHA1 } from "crypto-js";
 import { App, Configuration, LoginStatus } from "../@types/app";
 import sleep from "../utils/sleep";
 import { Wifi } from "./wifi";
-import log4js from "log4js";
 import { LAN } from "./lan";
 import { Connection } from "./connection";
 import { Port } from "./port";

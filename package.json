@@ -1,5 +1,5 @@
 {
-  "name": "@piarre/ts-freebox",
+  "name": "ts-freebox",
   "version": "1.0.1",
   "description": "",
   "main": "./out/index.js",
@@ -36,6 +36,7 @@
   "author": "Piarre",
   "license": "ISC",
   "devDependencies": {
+    "@types/crypto-js": "^4.2.2",
     "@types/node": "^20.11.17",
     "dotenv": "^16.4.4",
     "ts-node": "^10.9.2",
@@ -46,11 +47,8 @@
     "vue": "^3.4.19"
   },
   "dependencies": {
-    "@types/crypto-js": "^4.2.2",
     "crypto-js": "^4.2.0",
-    "log4js": "^6.9.1",
     "pino": "^9.0.0",
-    "pino-pretty": "^11.0.0",
-    "tslog": "^4.9.2"
+    "pino-pretty": "^11.0.0"
   }
 }
