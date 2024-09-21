@@ -1,14 +1,15 @@
 import { HmacSHA1 } from "crypto-js";
-import { App, Configuration, LoginStatus } from "../@types/app";
-import sleep from "../utils/sleep";
+import { App, Configuration as TConfiguration, LoginStatus } from "~freebox/@types/app";
+import sleep from "~freebox/utils/sleep";
 import { Wifi } from "./wifi";
 import { LAN } from "./lan";
 import { Connection } from "./connection";
 import { Port } from "./port";
-import request from "../utils/fetch";
+import request from "~freebox/utils/fetch";
 import pino from "pino";
 import { Player } from "./player";
 import pretty from "pino-pretty";
+import { Configuration } from "./configuration";
 
 type OnLoginApp = Pick<App, "app_id" | "app_name" | "app_version" | "device_name" | "app_token" | "debug">;
 
@@ -18,6 +19,7 @@ class Freebox {
   public connection: Connection;
   public port: Port;
   public player: Player;
+  public configuration: Configuration;
 
   public request: typeof request;
 
@@ -28,7 +30,7 @@ class Freebox {
     })
   );
 
-  public readonly _configuration?: Configuration = {
+  public readonly _configuration?: TConfiguration = {
     baseUrl: "http://mafreebox.freebox.fr/api/v11",
   };
   public _app: App;
@@ -135,7 +137,7 @@ class Freebox {
       },
       "POST"
     );
-    
+
     this.logger.debug(
       `Get sesion token with permssions: ${Object.keys(reqSession.result.permissions)
         .filter((key) => reqSession.result.permissions[key] === true)
