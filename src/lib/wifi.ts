@@ -46,7 +46,7 @@ class Guest extends Submodule {
   async get_list(): Promise<Response<WifiCustomKeyParams[]>> {
     const res = await request<WifiCustomKeyParams[]>(`${this.baseUrl}/wifi/custom_key/`, this.token);
 
-    if (!res.result) return { success: false, result: [] };
+    if (!res.result) return { success: true, result: [] };
 
     return res;
   }
