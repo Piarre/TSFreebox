@@ -24,7 +24,7 @@ features:
     details: 
   - icon: 🧑‍💻
     title: Open Source
-    details: Le projet est Open Source et est donc modifiable, vous pouvez y contribuez également
+    details: 
 ---
 
 <style>
